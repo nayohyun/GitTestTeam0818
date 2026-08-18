@@ -1,0 +1,320 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+.field {
+    position: relative;
+    width: 160px;
+    height: 100px;
+    overflow: hidden;
+    background: #14161f;
+}
+
+.piece {
+    position: absolute;
+    display: grid;
+    gap: 1px;
+}
+
+.piece span {
+    width: 19px;
+    height: 19px;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(255, 255, 255, .25);
+}
+
+/* ===== I 블록 (가로 1x4) : 이미 맨 아래 한 줄이라 전체가 대상 ===== */
+.piece-i {
+    left: 0px;
+    grid-template-columns: repeat(4, 19px);
+    animation: landI 8s infinite;
+}
+
+.piece-i span {
+    background: linear-gradient(135deg, #63b3ed, #3182ce);
+}
+
+/* ===== O 블록 (2x2) : 아래 2칸만 삭제, 위 2칸은 살아서 한 칸 내려옴 ===== */
+.piece-o {
+    left: 80px;
+    grid-template-columns: repeat(2, 19px);
+    grid-template-rows: repeat(2, 19px);
+    animation: landO 8s infinite;
+}
+
+.piece-o span {
+    background: linear-gradient(135deg, #f6e05e, #d69e2e);
+}
+
+/* ===== L 블록 : 맨 아래 2칸만 삭제, 위 2칸은 살아서 한 칸 내려옴 ===== */
+.piece-l {
+    left: 120px;
+    grid-template-columns: 19px 19px;
+    grid-template-rows: repeat(3, 19px);
+    animation: landL 8s infinite;
+}
+
+.piece-l span:nth-child(1) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* keep */
+.piece-l span:nth-child(2) {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* keep */
+.piece-l span:nth-child(3) {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* bottom */
+.piece-l span:nth-child(4) {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+/* bottom */
+.piece-l span {
+    background: linear-gradient(135deg, #f6ad55, #dd6b20);
+}
+
+/* ---- 피스 전체 낙하 + 최종 리셋(다음 루프 준비) ---- */
+@keyframes landI {
+    0% {
+        top: -100px;
+        opacity: 1;
+    }
+
+    20% {
+        top: 80px;
+        opacity: 1;
+    }
+
+    90% {
+        top: 80px;
+        opacity: 1;
+    }
+
+    95% {
+        top: -100px;
+        opacity: 0;
+    }
+
+    100% {
+        top: -100px;
+        opacity: 0;
+    }
+}
+
+@keyframes landO {
+    0% {
+        top: -100px;
+        opacity: 1;
+    }
+
+    35% {
+        top: 60px;
+        opacity: 1;
+    }
+
+    90% {
+        top: 60px;
+        opacity: 1;
+    }
+
+    95% {
+        top: -100px;
+        opacity: 0;
+    }
+
+    100% {
+        top: -100px;
+        opacity: 0;
+    }
+}
+
+@keyframes landL {
+    0% {
+        top: -100px;
+        opacity: 1;
+    }
+
+    50% {
+        top: 40px;
+        opacity: 1;
+    }
+
+    90% {
+        top: 40px;
+        opacity: 1;
+    }
+
+    95% {
+        top: -100px;
+        opacity: 0;
+    }
+
+    100% {
+        top: -100px;
+        opacity: 0;
+    }
+}
+
+/* ---- 맨 아래 줄 셀: 반짝하고 사라짐 ---- */
+.cell-bottom {
+    animation: clearRow 8s infinite;
+}
+
+@keyframes clearRow {
+    0% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    63% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    64% {
+        filter: brightness(2.5);
+    }
+
+    68% {
+        filter: brightness(2.5);
+        opacity: 1;
+    }
+
+    72% {
+        filter: brightness(1);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ---- 살아남는 셀: 같은 시점에 한 칸(20px) 내려옴 ---- */
+.cell-keep {
+    animation: shiftDown 8s infinite;
+}
+
+@keyframes shiftDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    71% {
+        transform: translateY(0);
+    }
+
+    72% {
+        transform: translateY(20px);
+    }
+
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+.footer-bar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #14161f;
+    border-top: 1px solid #2a2d3a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 10px 16px;
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+.side-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-panel {
+    flex-direction: column;
+    gap: 2px;
+}
+
+.panel-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #5a5f75;
+}
+
+.panel-value {
+    font-size: 14px;
+    color: #e2e8f0;
+    font-weight: bold;
+}
+
+.mini-box {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #2a2d3a;
+    border-radius: 4px;
+    background: #0f1117;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.mini-piece {
+    display: grid;
+    grid-template-columns: repeat(3, 8px);
+    grid-template-rows: repeat(2, 8px);
+    gap: 1px;
+}
+
+.mini-piece span {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: linear-gradient(135deg, #b794f4, #805ad5);
+}
+
+/* NEXT 박스에 T 모양 미리보기 */
+.mini-t span:nth-child(1) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.mini-t span:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.mini-t span:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.mini-t span:nth-child(4) {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+/* HOLD 박스는 빈 상태 (점선 표시) */
+.mini-piece.empty {
+    width: 26px;
+    height: 26px;
+    border: 1px dashed #2a2d3a;
+    border-radius: 3px;
+    background: none;
+}
