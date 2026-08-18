@@ -1,4 +1,6 @@
-body { margin:0; min-height:100vh; background:#0f1117; display:flex; align-items:flex-end; justify-content:center; }
+body { margin: 0;
+  min-height: 100vh;
+}
 
   .field {
     position:relative;
@@ -90,4 +92,11 @@ body { margin:0; min-height:100vh; background:#0f1117; display:flex; align-items
     71%  { transform:translateY(0); }
     72%  { transform:translateY(20px); }
     100% { transform:translateY(20px); }
+  }
+
+  footer.field {
+    position: fixed;      /* 화면 하단에 고정하고 싶을 때 */
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
   }
