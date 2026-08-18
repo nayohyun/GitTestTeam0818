@@ -256,10 +256,28 @@ body {
     color: #5a5f75;
 }
 
+@property --score {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+
 .panel-value {
     font-size: 14px;
     color: #e2e8f0;
     font-weight: bold;
+    counter-reset: score var(--score);
+    animation: countUp 8s infinite;
+}
+.panel-value::after {
+    content: counter(score);
+}
+
+@keyframes countUp {
+    0%   { --score: 0; }
+    60%  { --score: 0; }
+    72%  { --score: 100; }
+    100% { --score: 100; }
 }
 
 .mini-box {
